@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Join Quiz | QuizNova</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<nav class="navbar">
+
+    <div class="logo">
+        ⚡ QuizNova
+    </div>
+
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/create">Create Quiz</a>
+    </div>
+
+</nav>
+
+
+<div class="join-wrapper">
+
+    <div class="join-card">
+
+        <div class="join-icon">
+            🎮
+        </div>
+
+        <h1>Join a Quiz</h1>
+
+        <p>
+            Enter your name and the quiz code to start.
+        </p>
+
+
+        {% with messages = get_flashed_messages() %}
+
+            {% if messages %}
+
+                <div class="alert">
+
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        <form method="POST">
+
+            <label>Your Name</label>
+
+            <input
+                type="text"
+                name="student_name"
+                placeholder="Enter your name"
+                required
+            >
+
+
+            <label>Quiz Code</label>
+
+            <input
+                type="text"
+                name="code"
+                placeholder="Example: A7K92P"
+                maxlength="6"
+                class="code-input"
+                required
+            >
+
+
+            <button
+                type="submit"
+                class="btn primary full">
+
+                🚀 Start Quiz
+
+            </button>
+
+        </form>
+
+
+        <a href="/" class="back-link">
+            ← Back to Home
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>

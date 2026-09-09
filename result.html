@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Result | QuizNova</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<nav class="navbar">
+
+    <div class="logo">
+        ⚡ QuizNova
+    </div>
+
+</nav>
+
+
+<div class="result-wrapper">
+
+    <div class="result-card">
+
+        <div class="trophy">
+            🏆
+        </div>
+
+        <h1>Quiz Completed!</h1>
+
+        <p>
+            Great job, {{ session["student_name"] }}!
+        </p>
+
+
+        <div class="score-circle">
+
+            <strong>
+                {{ percentage }}%
+            </strong>
+
+            <span>
+                Score
+            </span>
+
+        </div>
+
+
+        <div class="score-text">
+
+            <strong>
+                {{ score }} / {{ total }}
+            </strong>
+
+            correct answers
+
+        </div>
+
+
+        {% if percentage >= 80 %}
+
+            <div class="result-message">
+                🌟 Excellent! Outstanding performance!
+            </div>
+
+        {% elif percentage >= 50 %}
+
+            <div class="result-message">
+                👍 Good job! Keep improving!
+            </div>
+
+        {% else %}
+
+            <div class="result-message">
+                💪 Keep practicing. You can do it!
+            </div>
+
+        {% endif %}
+
+
+        <div class="hero-buttons">
+
+            <a
+                href="/leaderboard/{{ quiz_id }}"
+                class="btn primary">
+
+                🏆 Leaderboard
+
+            </a>
+
+            <a
+                href="/"
+                class="btn secondary">
+
+                Home
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

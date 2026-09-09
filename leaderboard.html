@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Leaderboard | QuizNova</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<nav class="navbar">
+
+    <div class="logo">
+        ⚡ QuizNova
+    </div>
+
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/create">Create Quiz</a>
+        <a href="/join">Join Quiz</a>
+    </div>
+
+</nav>
+
+
+<div class="leaderboard-container">
+
+    {% if quiz %}
+
+        <div class="leaderboard-header">
+
+            <div class="trophy-big">
+                🏆
+            </div>
+
+            <h1>
+                {{ quiz["title"] }}
+            </h1>
+
+            <p>
+                Quiz Leaderboard
+            </p>
+
+        </div>
+
+
+        <div class="leaderboard">
+
+            {% if results %}
+
+                {% for result in results %}
+
+                <div class="leader-row">
+
+                    <div class="rank">
+
+                        {% if loop.index == 1 %}
+                            🥇
+                        {% elif loop.index == 2 %}
+                            🥈
+                        {% elif loop.index == 3 %}
+                            🥉
+                        {% else %}
+                            {{ loop.index }}
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="student">
+
+                        <strong>
+                            {{ result["student_name"] }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="student-score">
+
+                        {{ result["score"] }}
+                        /
+                        {{ result["total"] }}
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <div class="empty">
+                    No students have completed this quiz yet.
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    {% else %}
+
+        <div class="form-card">
+
+            <h1>Quiz List</h1>
+
+            {% for q in quizzes %}
+
+                <div class="quiz-list-item">
+
+                    <div>
+
+                        <strong>
+                            {{ q["title"] }}
+                        </strong>
+
+                        <p>
+                            Code: {{ q["code"] }}
+                        </p>
+
+                    </div>
+
+                    <a
+                        href="/leaderboard/{{ q['id'] }}"
+                        class="small-btn">
+
+                        View
+
+                    </a>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+</body>
+</html>

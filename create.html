@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Create Quiz | QuizNova</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<nav class="navbar">
+
+    <div class="logo">
+        ⚡ QuizNova
+    </div>
+
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/join">Join Quiz</a>
+    </div>
+
+</nav>
+
+
+<div class="page-container">
+
+{% if success %}
+
+    <div class="success-card">
+
+        <div class="success-icon">
+            🎉
+        </div>
+
+        <h1>Quiz Created!</h1>
+
+        <p>
+            Your quiz is ready. Share this code with students.
+        </p>
+
+        <div class="quiz-code">
+            {{ code }}
+        </div>
+
+        <p>
+            Quiz: <strong>{{ title }}</strong>
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="/join" class="btn primary">
+                Join Quiz
+            </a>
+
+            <a href="/" class="btn secondary">
+                Home
+            </a>
+
+        </div>
+
+    </div>
+
+{% else %}
+
+    <div class="form-card">
+
+        <h1>Create Your Quiz</h1>
+
+        <p class="muted">
+            Create an interactive quiz in a few seconds.
+        </p>
+
+        <form method="POST"
+              onsubmit="prepareQuestions()">
+
+            <label>Quiz Title</label>
+
+            <input
+                type="text"
+                name="title"
+                placeholder="Example: Python Basics"
+                required
+            >
+
+            <label>Description</label>
+
+            <textarea
+                name="description"
+                placeholder="Enter quiz description..."
+            ></textarea>
+
+
+            <div class="questions-title">
+
+                <h2>Questions</h2>
+
+                <button
+                    type="button"
+                    class="small-btn"
+                    onclick="addQuestion()">
+                    + Add Question
+                </button>
+
+            </div>
+
+
+            <div id="questions-container"></div>
+
+            <input
+                type="hidden"
+                name="questions"
+                id="questions-data"
+            >
+
+            <button
+                type="submit"
+                class="btn primary full">
+                🚀 Publish Quiz
+            </button>
+
+        </form>
+
+    </div>
+
+{% endif %}
+
+</div>
+
+
+<script>
+
+let questionCount = 0;
+
+
+function addQuestion() {
+
+    questionCount++;
+
+    const container =
+        document.getElementById("questions-container");
+
+    const div = document.createElement("div");
+
+    div.className = "question-builder";
+
+    div.innerHTML = `
+
+        <div class="question-heading">
+            Question ${questionCount}
+        </div>
+
+        <input
+            class="q-text"
+            type="text"
+            placeholder="Enter your question"
+            required
+        >
+
+        <div class="options-grid">
+
+            <input
+                class="q-a"
+                type="text"
+                placeholder="Option A"
+                required
+            >
+
+            <input
+                class="q-b"
+                type="text"
+                placeholder="Option B"
+                required
+            >
+
+            <input
+                class="q-c"
+                type="text"
+                placeholder="Option C"
+                required
+            >
+
+            <input
+                class="q-d"
+                type="text"
+                placeholder="Option D"
+                required
+            >
+
+        </div>
+
+        <select class="q-answer">
+
+            <option value="A">
+                Correct Answer: A
+            </option>
+
+            <option value="B">
+                Correct Answer: B
+            </option>
+
+            <option value="C">
+                Correct Answer: C
+            </option>
+
+            <option value="D">
+                Correct Answer: D
+            </option>
+
+        </select>
+
+    `;
+
+    container.appendChild(div);
+}
+
+
+function prepareQuestions() {
+
+    const questionBoxes =
+        document.querySelectorAll(".question-builder");
+
+    const questions = [];
+
+    questionBoxes.forEach(box => {
+
+        questions.push({
+
+            question:
+                box.querySelector(".q-text").value,
+
+            a:
+                box.querySelector(".q-a").value,
+
+            b:
+                box.querySelector(".q-b").value,
+
+            c:
+                box.querySelector(".q-c").value,
+
+            d:
+                box.querySelector(".q-d").value,
+
+            answer:
+                box.querySelector(".q-answer").value
+
+        });
+
+    });
+
+    document.getElementById(
+        "questions-data"
+    ).value = JSON.stringify(questions);
+
+}
+
+
+addQuestion();
+
+</script>
+
+</body>
+</html>
